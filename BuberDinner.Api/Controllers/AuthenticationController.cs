@@ -2,6 +2,7 @@ namespace BuberDinner.Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using BuberDinner.Contracts.Authentication;
 using BuberDinner.Application.Services.Authentication; // Why do I need this?  OP doesn't.
+using BuberDinner.Api.Filters;
 
 [ApiController]
 [Route("auth")]
