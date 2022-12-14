@@ -1,16 +1,23 @@
 namespace BuberDinner.Api.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Diagnostics;
+using BuberDinner.Application.Common.Errors;
 
-public class ErrorsController : ControllerBase
+[System.Diagnostics.DebuggerDisplay("{DebuggerDisplay,nq}")]
+public class ErrorsController : ApiController
 {
     [Route("/error")]
     public IActionResult Error()
     {
-        Exception? exception = HttpContext
-            .Features
-            .Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>()?
-            .Error;
-        return Problem(statusCode: 500, title: exception?.Message);
+        Exception? exception = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
+
+        var (statusCode, message) = exception switch
+        {
+            IServiceException serviceException
+                => ((int)serviceException.StatusCode, serviceException.ErrorMessage),
+            _ => (StatusCodes.Status500InternalServerError, "An unexpected error occurred.")
+        };
+        return Problem(statusCode: statusCode, title: message);
     }
 }

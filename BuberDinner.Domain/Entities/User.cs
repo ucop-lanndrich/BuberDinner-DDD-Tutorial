@@ -1,5 +1,6 @@
 namespace BuberDinner.Domain.Entities;
 
+[System.Diagnostics.DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class User
 {
     public Guid Id { get; set; } = Guid.NewGuid();
