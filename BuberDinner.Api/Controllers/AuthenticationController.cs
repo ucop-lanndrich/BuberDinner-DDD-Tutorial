@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using BuberDinner.Contracts.Authentication;
-using BuberDinner.Application.Services.Authentication; // Why do I need this?  OP doesn't.
-using BuberDinner.Domain.Common.Errors;
+using BuberDinner.Application.Services.Authentication.Commands; // Why do I need this?  OP doesn't.
+using BuberDinner.Application.Services.Authentication.Queries; // Why do I need this?  OP doesn't.
+using BuberDinner.Application.Services.Authentication.Common; // Why do I need this?  OP doesn't.
 using ErrorOr;
 
 namespace BuberDinner.Api.Controllers;
@@ -10,11 +11,15 @@ namespace BuberDinner.Api.Controllers;
 [System.Diagnostics.DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class AuthenticationController : ApiController
 {
-    private readonly IAuthenticationService _authenticationService;
+    private readonly IAuthenticationCommandService _authenticationCommandService;
+    private readonly IAuthenticationQueryService _authenticationQueryService;
 
-    public AuthenticationController(IAuthenticationService authenticationService)
+    public AuthenticationController(
+        IAuthenticationCommandService authenticationCommandService,
+        IAuthenticationQueryService authenticationQueryService)
     {
-        _authenticationService = authenticationService;
+        _authenticationCommandService = authenticationCommandService;
+        _authenticationQueryService = authenticationQueryService;
     }
 
     [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
@@ -26,7 +31,7 @@ public class AuthenticationController : ApiController
     [HttpPost("register")]
     public IActionResult Register(RegisterRequest request)
     {
-        ErrorOr<AuthenticationResult> authResult = _authenticationService.Register(
+        ErrorOr<AuthenticationResult> authResult = _authenticationCommandService.Register(
             request.FirstName,
             request.LastName,
             request.Email,
@@ -41,16 +46,9 @@ public class AuthenticationController : ApiController
     [HttpPost("login")]
     public IActionResult Login(LoginRequest request)
     {
-        var authResult = _authenticationService.Login(
+        var authResult = _authenticationQueryService.Login(
             request.Email,
             request.Password);
-
-        if (authResult.IsError && authResult.FirstError == Errors.Authentication.InvalidCredentials)
-        {
-            return Problem(
-                statusCode: StatusCodes.Status401Unauthorized,
-                title: authResult.FirstError.Description);
-        }
 
         return authResult.Match(
             authResult => Ok(MapAuthResult(authResult)),
