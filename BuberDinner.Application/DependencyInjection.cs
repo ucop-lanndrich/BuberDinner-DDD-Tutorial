@@ -22,14 +22,6 @@ public static class DependencyInjection
             typeof(IPipelineBehavior<,>),
             typeof(ValidationBehavior<,>));
 
-        // services.AddScoped<
-        //     IPipelineBehavior<RegisterCommand, ErrorOr<AuthenticationResult>>,
-        //     ValidateRegisterCommandBehavior>();
-
-        // services.AddScoped<
-        //     IValidator<RegisterCommand>,
-        //     RegisterCommandValidator>();
-
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         return services;
