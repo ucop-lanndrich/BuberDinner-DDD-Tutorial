@@ -1,21 +1,23 @@
-using MediatR;
-using ErrorOr;
 using BuberDinner.Application.Authentication.Common;
 using BuberDinner.Application.Common.Interfaces.Authentication;
 using BuberDinner.Application.Common.Interfaces.Persistence;
 using BuberDinner.Domain.Common.Errors;
 using BuberDinner.Domain.Entities;
 
+using ErrorOr;
+
+using MediatR;
+
 namespace BuberDinner.Application.Authentication.Queries.Login;
 
-public class LoginCommandHandler :
+public class LoginQueryHandler :
     IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
     private readonly IUserRepository _userRepository;
 
-    public LoginCommandHandler(
+    public LoginQueryHandler(
         IJwtTokenGenerator jwtTokenGenerator,
         IUserRepository userRepository
     )
@@ -24,11 +26,13 @@ public class LoginCommandHandler :
         _userRepository = userRepository;
     }
 
-    // Ignoring the lack of await for now, I assume one will come later.
     public async Task<ErrorOr<AuthenticationResult>> Handle(
         LoginQuery query,
         CancellationToken cancellationToken)
     {
+        // lol
+        await Task.CompletedTask;
+
         // 1. Validate the user exists
         if (_userRepository.GetUserByEmail(query.Email) is not User user)
         {

@@ -1,10 +1,12 @@
-using MediatR;
-using ErrorOr;
 using BuberDinner.Application.Authentication.Common;
 using BuberDinner.Application.Common.Interfaces.Authentication;
 using BuberDinner.Application.Common.Interfaces.Persistence;
 using BuberDinner.Domain.Common.Errors;
 using BuberDinner.Domain.Entities;
+
+using ErrorOr;
+
+using MediatR;
 
 namespace BuberDinner.Application.Authentication.Commands.Register;
 
@@ -24,11 +26,13 @@ public class RegisterCommandHandler :
         _userRepository = userRepository;
     }
 
-    // Ignoring the lack of await for now, I assume one will come later.
     public async Task<ErrorOr<AuthenticationResult>> Handle(
         RegisterCommand command,
         CancellationToken cancellationToken)
     {
+        // lol
+        await Task.CompletedTask;
+
         // Check if user already exists
         if (_userRepository.GetUserByEmail(command.Email) != null)
         {
