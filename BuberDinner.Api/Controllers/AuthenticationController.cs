@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using BuberDinner.Application.Authentication.Commands.Register;
@@ -7,12 +8,14 @@ using BuberDinner.Contracts.Authentication;
 
 using ErrorOr;
 
-using MediatR;
 using MapsterMapper;
+
+using MediatR;
 
 namespace BuberDinner.Api.Controllers;
 
 [Route("auth")]
+[AllowAnonymous]
 [System.Diagnostics.DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class AuthenticationController : ApiController
 {
