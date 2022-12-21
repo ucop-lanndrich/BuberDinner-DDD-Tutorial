@@ -4,6 +4,7 @@ using MediatR;
 
 namespace BuberDinner.Application.Common.Behaviors;
 
+// Does where open this up for overloaded operators that don't match the where?
 public class ValidationBehavior<TRequest, TResponse> :
     IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
