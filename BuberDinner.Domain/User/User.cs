@@ -1,5 +1,4 @@
-namespace BuberDinner.Domain.Entities;
-// namespace BuberDinner.Domain.User;
+namespace BuberDinner.Domain.User;
 
 [System.Diagnostics.DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class User

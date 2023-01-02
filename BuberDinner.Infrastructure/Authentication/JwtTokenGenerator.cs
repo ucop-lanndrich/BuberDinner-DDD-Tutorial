@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Options;
-using BuberDinner.Domain.Entities;
+using BuberDinner.Domain.User;
 
 [System.Diagnostics.DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class JwtTokenGenerator : IJwtTokenGenerator

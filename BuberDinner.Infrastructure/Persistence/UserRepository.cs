@@ -1,6 +1,6 @@
 namespace BuberDinner.Infrastructure.Persistence;
 using BuberDinner.Application.Common.Interfaces.Persistence;
-using BuberDinner.Domain.Entities;
+using BuberDinner.Domain.User;
 
 [System.Diagnostics.DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class UserRepository : IUserRepository
